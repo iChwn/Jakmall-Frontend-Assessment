@@ -6,13 +6,16 @@ import { IconList } from "assets/image";
 
 const InputContainer = styled.div`
   position: relative;
-  border-radius: 4px 4px 0 0;
+  border-radius: 4px;
   transition: background-color 500ms;
   :focus-within {
     background-color: #f5f5f5;
   }
   display: flex;
-  border: 1px solid ${colors.grayUltraLight};
+  border: 1px solid ${props => {
+    const {isError, errorObj} = props
+    return !isError ? colors.grayUltraLight : errorObj ? colors.orange : colors.green
+  }};
   padding-right: 10px;
 `
 
@@ -31,9 +34,6 @@ const Input = styled.textarea`
   :focus {
     outline: none;
   }
-  :focus + label {
-    color: red;
-  }
   :focus + label,
   input + label {
     transform: translateY(-100%) scale(0.75);
@@ -47,12 +47,16 @@ const Input = styled.textarea`
 `
 
 const InputLabel = styled.label`
+  font-size: 16px;
   display: block;
   position: absolute;
   top: 25%;
   transform: translateY(-50%);
   left: 16px;
-  color: rgba(0, 0, 0, 0.5);
+  color: ${props => {
+    const {isError, errorObj} = props
+    return !isError ? colors.grayLight : errorObj ? colors.orange : colors.green
+  }};
   transform-origin: left top;
   user-select: none;
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1),color 150ms cubic-bezier(0.4, 0, 0.2, 1), top 500ms;
@@ -63,24 +67,26 @@ const InputIcon = styled.img`
   width: 20px;
 `
 
-const TextAreaInput = ({value, name, type, placeholder, onChange, disabled}) => {
+const TextAreaInput = React.forwardRef(({value, getValues, name, type, placeholder, disabled, error, ...rest}, ref) => {
+  const isError = (getValues(name) || error !== undefined)
+
   return (
-    <InputContainer>
+    <InputContainer isError={isError} errorObj={error}>
       <Input 
+        ref={ref}
         type={type}
-        name={name ? name : ""} 
+        name={name} 
         autoComplete="off"
-        onChange={onChange} 
-        value={`${value}`}
         disabled={disabled}
         placeholder={placeholder}
         rows={4}
+        {...rest}
       />
-      <InputLabel>{placeholder}</InputLabel>
-      <InputIcon src={IconList.CheckIcon} alt=""/>
+      <InputLabel isError={isError} errorObj={error}>{placeholder}</InputLabel>
+      {isError && (<InputIcon src={error ? IconList.CloseIcon : IconList.CheckIcon} alt=""/>)}
     </InputContainer>
   )
-}
+})
 
 TextAreaInput.propTypes = {
   data: PropTypes.object,
@@ -88,10 +94,8 @@ TextAreaInput.propTypes = {
 };
 
 TextAreaInput.defaultProps = {
-  title: "",
   placeholder: "",
   type: "",
-  onChange: () => {},
   value: "",
   disabled: false
 };

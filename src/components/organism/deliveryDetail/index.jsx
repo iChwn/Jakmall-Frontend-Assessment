@@ -29,6 +29,10 @@ const DeliveryDetail = ({
 	changeDropship,
 	formData,
 	onChangeInput,
+  register,
+  errors,
+  handleSubmit,
+  getValues
 }) => {
 	return (
 		<Wrapper>
@@ -41,49 +45,43 @@ const DeliveryDetail = ({
 					style={{ marginRight: 20 }}
 				/>
 			</TitleHeader>
-			<Col>
-        {formData.map((result, index) => {
-          return (
-            <Row cols={result.cols} key={index}>
-              {(result.type === 'email' ||
-                result.type === 'text' ||
-                result.type === 'number') && (
-                <TextInput
-                  type={result.type}
-                  name={result.name}
-                  value={result.value}
-                  onChange={onChangeInput}
-                  placeholder={result.placeholder}
-                />
-              )}
-              {result.type === 'textarea' && (
-                <TextAreaInput
-                  type={result.type}
-                  name={result.name}
-                  value={result.value}
-                  onChange={onChangeInput}
-                  placeholder={result.placeholder}
-                />
-              )}
-            </Row>
-          )
-        })}
-        {/* <Row cols={7}>
-          <TextInput value={email} onChange={e => setEmail(e.target.value)} placeholder={"First Name"}/>
-        </Row>
-        <Row cols={5}>
-          <TextInput placeholder={"First Name"}/>
-        </Row>
-        <Row cols={7}>
-          <TextInput value={"test 123"} placeholder={"First Name"}/>
-        </Row>
-        <Row cols={5}>
-          <TextInput placeholder={"First Name"}/>
-        </Row>
-        <Row cols={7}>
-          <TextAreaInput placeholder={"Delivery Address"}/>
-        </Row> */}
-      </Col>
+      <form onSubmit={handleSubmit}>
+        <Col>
+          {formData.map((result, index) => {
+            return (
+              <Row cols={result.cols} key={index}>
+                {(result.type === 'email' ||
+                  result.type === 'text' ||
+                  result.type === 'number') && (
+                  <TextInput
+                    getValues={getValues}
+                    type={result.type}
+                    name={result.name}
+                    value={result.value}
+                    onChange={onChangeInput}
+                    placeholder={result.placeholder}
+                    error={errors[result.name]}
+                    {...register(result.name, result.rules)}
+                  />
+                )}
+                {result.type === 'textarea' && (
+                  <TextAreaInput
+                    getValues={getValues}
+                    type={result.type}
+                    name={result.name}
+                    value={result.value}
+                    onChange={onChangeInput}
+                    placeholder={result.placeholder}
+                    error={errors[result.name]}
+                    {...register(result.name, result.rules)}
+                  />
+                )}
+              </Row>
+            )
+          })}
+        </Col>
+        <button type="submit">Submit</button>
+      </form>
 		</Wrapper>
 	)
 }

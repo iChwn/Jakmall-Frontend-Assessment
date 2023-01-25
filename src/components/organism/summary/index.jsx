@@ -60,7 +60,7 @@ const Boundaries = styled.div`
   top: -10px;
 `
  
-const Summary = () => {
+const Summary = ({handleSubmit}) => {
   return (
     <SectionWrapper>
       <Section style={{display: "flex", flex: 1, flexDirection: "column"}}>
@@ -92,7 +92,7 @@ const Summary = () => {
           <H3Label>Total</H3Label>
           <H3Label>505,900</H3Label>
         </WrapperSpaceBetween>
-        <BaseButton title="Continue to Payment" />
+        <BaseButton onClick={handleSubmit} title="Continue to Payment" />
       </Section>
     </SectionWrapper>
   )

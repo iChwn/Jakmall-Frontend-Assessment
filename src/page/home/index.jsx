@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "assets/css/custom.scss"
 import styled from "styled-components";
 import { Col, DeliveryDetail, Row, Stepper, Summary } from "components";
+import { useForm } from "react-hook-form";
 import _ from "lodash";
 
 const Container = styled.div`
@@ -39,49 +40,63 @@ const WrapperContent = styled.div`
 
 const HomePage = () => {
   const [isDropShip, setIsDropShip] = useState(false)
-  // eslint-disable-next-line no-unused-vars
   const [formToState, setFormToState] = useState([
     {
       placeholder: "Email",
       type: "email",
       value: "",
       name: "email",
-      error: "",
-      cols: 7
+      cols: 7,
+      rules: {
+        required: "Harus di Isi"
+      }
     },
     {
       placeholder: "Dropshipper name",
       type: "text",
       value: "",
-      name: "dropshipper-name",
-      error: "",
-      cols: 5
+      name: "dropshipperName",
+      cols: 5,
+      rules: {
+        required: "Harus di Isi"
+      }
     },
     {
       placeholder: "Phone Number",
       type: "number",
       value: "",
-      name: "number",
-      error: "",
-      cols: 7
+      name: "phoneNumber",
+      cols: 7,
+      rules: {
+        required: "Harus di Isi"
+      }
     },
     {
       placeholder: "Dropship phone number",
       type: "number",
       value: "",
-      name: "dropship-phone-number",
-      error: "",
-      cols: 5
+      name: "dropshipPhoneNumber",
+      cols: 5,
+      rules: {
+        required: "Harus di Isi"
+      }
     },
     {
       placeholder: "Delivery Address",
       type: "textarea",
       value: "",
-      name: "delivery-address",
-      error: "",
-      cols: 7
+      name: "deliveryAddress",
+      cols: 7,
+      rules: {
+        required: "Harus di Isi"
+      }
     },
   ])
+  const { register, handleSubmit, formState: { errors }, getValues } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   const handleOnChange = (event) => {
     const targetType = event.target.type
@@ -109,6 +124,7 @@ const HomePage = () => {
     setFormToState(cloneForms)
   }
 
+  console.log(errors)
   return (
     <Container>
       <CardWrapper>
@@ -123,10 +139,14 @@ const HomePage = () => {
                 changeDropship={setIsDropShip}
                 formData={formToState}
                 onChangeInput={handleOnChange} 
+                register={register}
+                errors={errors}
+                handleSubmit={handleSubmit(onSubmit)}
+                getValues={getValues}
               />
             </Row>
             <Row cols={4}>
-              <Summary />
+              <Summary handleSubmit={handleSubmit(onSubmit)}/>
             </Row>
           </Col>
         </WrapperContent>
