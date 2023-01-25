@@ -9,6 +9,9 @@ import TextInput from './atoms/input/inputText'
 import Checkbox from './atoms/checkbox/checkbox'
 import LabelTitle from './atoms/label/labelTitle'
 import TextAreaInput from './atoms/input/inputTextArea'
+import BackButton from './atoms/button/backButton'
+import Card from './atoms/card/card'
+import ListItemCard from './atoms/card/listItemCard'
 
 // Molecules
 import Stepper from './molecules/stepper'
@@ -16,8 +19,10 @@ import Stepper from './molecules/stepper'
 // Organism
 import Summary from './organism/summary'
 import DeliveryDetail from './organism/deliveryDetail'
+import PaymentDetail from './organism/paymentDetail'
 
 export {
+	Card,
 	Col,
 	Row,
 	Checkbox,
@@ -30,4 +35,7 @@ export {
 	TextAreaInput,
 	Summary,
 	DeliveryDetail,
+	BackButton,
+	PaymentDetail,
+	ListItemCard
 }

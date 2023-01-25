@@ -44,32 +44,15 @@ const StepLabel = styled.div`
 	color: ${colors.orange};
 `
 
-const Stepper = () => {
-	const [stepList, setStepList] = useState([
-		{
-			id: 1,
-			isActive: true,
-			label: 'Delivery',
-		},
-		{
-			id: 2,
-			isActive: false,
-			label: 'Payment',
-		},
-		{
-			id: 3,
-			isActive: false,
-			label: 'Finish',
-		},
-	])
-
+const Stepper = ({stepList, currentStep}) => {
+	
 	return (
 		<StepperWrapper>
 			{stepList.map((result, index) => {
 				return (
-					<StepWrapper key={result.id}>
-						<RoundNumber isActive={result.isActive}>{index + 1}</RoundNumber>
-						<StepLabel>{result.label}</StepLabel>
+					<StepWrapper key={`step-index-${index}`}>
+						<RoundNumber isActive={currentStep > index}>{index + 1}</RoundNumber>
+						<StepLabel>{result}</StepLabel>
 						{index + 1 !== stepList.length && (
 							<StepLabel style={{ marginLeft: 10, marginRight: 10 }}>
 								{' '}

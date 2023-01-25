@@ -18,6 +18,7 @@ const InputContainer = styled.div`
     return !isError ? colors.grayUltraLight : errorObj ? colors.orange : colors.green
   }};
   padding-right: 10px;
+  background-color: ${props => props.disabled ? colors.grayUltraLight : colors.white};
 `
 
 const Input = styled.input`
@@ -34,9 +35,6 @@ const Input = styled.input`
   :focus {
     outline: none;
   }
-  // :focus + label {
-  //   color: red;
-  // }
   :focus + label,
   input + label {
     transform: translateY(-100%) scale(0.75);
@@ -46,6 +44,11 @@ const Input = styled.input`
   }
   :not(:placeholder-shown) + label {
     transform: translateY(-100%) scale(0.75);
+  }
+  ::-webkit-outer-spin-button,
+  ::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 `
 
@@ -74,7 +77,7 @@ const TextInput = React.forwardRef(({value, getValues, name, type, placeholder, 
   const isError = (getValues(name) || error !== undefined)
 
   return (
-    <InputContainer isError={isError} errorObj={error}>
+    <InputContainer disabled={disabled} isError={isError} errorObj={error}>
       <Input 
         ref={ref}
         type={type}

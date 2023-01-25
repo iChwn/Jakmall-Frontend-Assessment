@@ -18,7 +18,7 @@ const H3Label = styled.span`
 const Bordered = styled.div`
   height: 5px;
   background-color: ${colors.grayWhite};
-  width: 103%;
+  width: 250px;
   position: absolute;
   bottom: 10px;
   z-index: 0;

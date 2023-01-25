@@ -61,6 +61,7 @@ const DeliveryDetail = ({
                     onChange={onChangeInput}
                     placeholder={result.placeholder}
                     error={errors[result.name]}
+                    disabled={result.disabled}
                     {...register(result.name, result.rules)}
                   />
                 )}

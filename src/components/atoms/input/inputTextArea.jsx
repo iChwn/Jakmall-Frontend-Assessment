@@ -67,24 +67,32 @@ const InputIcon = styled.img`
   width: 20px;
 `
 
+const Limiter = styled.span`
+  color: ${colors.grayUltraLight};
+  font-size: 14px;
+`
+
 const TextAreaInput = React.forwardRef(({value, getValues, name, type, placeholder, disabled, error, ...rest}, ref) => {
   const isError = (getValues(name) || error !== undefined)
 
   return (
-    <InputContainer isError={isError} errorObj={error}>
-      <Input 
-        ref={ref}
-        type={type}
-        name={name} 
-        autoComplete="off"
-        disabled={disabled}
-        placeholder={placeholder}
-        rows={4}
-        {...rest}
-      />
-      <InputLabel isError={isError} errorObj={error}>{placeholder}</InputLabel>
-      {isError && (<InputIcon src={error ? IconList.CloseIcon : IconList.CheckIcon} alt=""/>)}
-    </InputContainer>
+    <div>
+      <InputContainer isError={isError} errorObj={error}>
+        <Input 
+          ref={ref}
+          type={type}
+          name={name} 
+          autoComplete="off"
+          disabled={disabled}
+          placeholder={placeholder}
+          rows={4}
+          {...rest}
+        />
+        <InputLabel isError={isError} errorObj={error}>{placeholder}</InputLabel>
+        {isError && (<InputIcon src={error ? IconList.CloseIcon : IconList.CheckIcon} alt=""/>)}
+      </InputContainer>
+      <Limiter>{getValues(name) ? getValues(name).length : 0}/200 Karakter</Limiter>
+    </div>
   )
 })
 
