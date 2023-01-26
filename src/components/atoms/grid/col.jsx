@@ -13,9 +13,9 @@ const Column = styled.div`
   }
 `
 
-const Col = ({children, style}) => {
+const Col = ({children, style, className}) => {
   return (
-    <Column style={style}>
+    <Column style={style} className={className}>
       {children}
     </Column>
   )

@@ -1,9 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { colors } from 'constant'
-import { IconList } from 'assets/image'
-import { handdleValidateFieldStyle } from 'utility/helper/helper'
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { colors } from "constant"
+import { IconList } from "assets/image"
+import { handdleValidateFieldStyle } from "utility/helper/helper"
+import ErrorLabel from "../label/errorLabel"
 
 const InputContainer = styled.div`
 	position: relative;
@@ -89,28 +90,32 @@ const TextInput = React.forwardRef(
     const hasValue = getValues(name)
 
 		return (
-			<InputContainer disabled={disabled} isError={isError} hasValue={hasValue}>
-				<Input
-					ref={ref}
-					type={type}
-					name={name}
-					autoComplete='off'
-					disabled={disabled}
-					placeholder={placeholder}
-					onChange={onChange}
-					onBlur={onBlur}
-					value={value}
-				/>
-				<InputLabel isError={isError} hasValue={hasValue}>
-					{placeholder}
-				</InputLabel>
-				{isError && (
-					<InputIcon src={IconList.CloseIcon} alt=''/>
-				)}
-        {(!isError && hasValue) && (
-					<InputIcon src={IconList.CheckIcon} alt=''/>
-				)}
-			</InputContainer>
+			<div>
+				<InputContainer disabled={disabled} isError={isError} hasValue={hasValue}>
+					<Input
+						ref={ref}
+						type={type}
+						name={name}
+						autoComplete="off"
+						disabled={disabled}
+						placeholder={placeholder}
+						onChange={onChange}
+						onBlur={onBlur}
+						value={value}
+					/>
+					<InputLabel isError={isError} hasValue={hasValue}>
+						{placeholder}
+					</InputLabel>
+					{isError && (
+						<InputIcon src={IconList.CloseIcon} alt=""/>
+					)}
+					{(!isError && hasValue) && (
+						<InputIcon src={IconList.CheckIcon} alt=""/>
+					)}
+				</InputContainer>
+				{error !== undefined && <ErrorLabel title={error.message}/>}
+				
+			</div>
 		)
 	}
 )
@@ -121,9 +126,9 @@ TextInput.propTypes = {
 }
 
 TextInput.defaultProps = {
-	placeholder: '',
-	type: '',
-	value: '',
+	placeholder: "",
+	type: "",
+	value: "",
 	disabled: false,
 }
 

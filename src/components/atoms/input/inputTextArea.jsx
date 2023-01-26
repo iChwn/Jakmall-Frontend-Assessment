@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { colors } from 'constant'
 import { IconList } from 'assets/image'
 import { handdleValidateFieldStyle } from 'utility/helper/helper'
+import ErrorLabel from '../label/errorLabel'
 
 const InputContainer = styled.div`
 	position: relative;
@@ -75,6 +76,11 @@ const Limiter = styled.span`
   font-size: 14px;
 `
 
+const LabelBetween = styled.div`
+	display: flex;
+	justify-content: space-between;
+`
+
 const TextAreaInput = React.forwardRef(
 	(
 		{
@@ -87,7 +93,6 @@ const TextAreaInput = React.forwardRef(
 			error,
 			onChange,
 			onBlur,
-			...rest
 		},
 		ref
 	) => {
@@ -108,7 +113,6 @@ const TextAreaInput = React.forwardRef(
             onBlur={onBlur}
             value={value}
             rows={4}
-            {...rest}
           />
           <InputLabel isError={isError} hasValue={hasValue}>
             {placeholder}
@@ -120,7 +124,11 @@ const TextAreaInput = React.forwardRef(
             <InputIcon src={IconList.CheckIcon} alt=''/>
           )}
         </InputContainer>
-        <Limiter>{getValues(name) ? getValues(name).length : 0}/120 Karakter</Limiter>
+				<LabelBetween>
+					{error !== undefined && <ErrorLabel title={error.message} />} {" "}
+					<span/>
+					<Limiter>{getValues(name) ? getValues(name).length : 0}/120 Karakter</Limiter>
+				</LabelBetween>
       </div>
 		)
 	}

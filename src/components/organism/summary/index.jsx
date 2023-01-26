@@ -11,6 +11,10 @@ const SectionWrapper = styled.div`
 	flex-direction: column;
 	border-left: 1px solid ${colors.orangeBlur};
 	padding-left: 20px;
+	@media (max-width: 768px) {
+    border-left: none;
+		padding-left: 0px;
+  }
 `
 
 const H3Label = styled.h3`

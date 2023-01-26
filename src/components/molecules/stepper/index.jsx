@@ -15,13 +15,22 @@ const StepperWrapper = styled.div`
 	border-bottom-left-radius: 100px;
 	border-bottom-right-radius: 100px;
 	gap: 5px;
+	@media (max-width: 768px) {
+		padding: 0 0;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
+		background-color: ${colors.white};
+	}
 `
 
 const StepWrapper = styled.div`
 	display: flex;
 	align-items: center;
-	gap: 5px;
+	gap: 2px;
 	margin-top: -30px;
+	@media (max-width: 768px) {
+		margin-top: 0px;	
+	}
 `
 
 const RoundNumber = styled.div`
@@ -37,6 +46,7 @@ const RoundNumber = styled.div`
 	@media (max-width: 768px) {
 		width: 20px;
 		height: 20px;
+		font-size: 12px;
 	}
 `
 

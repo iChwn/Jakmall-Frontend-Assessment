@@ -21,6 +21,11 @@ const Wrapper = styled.div`
 	}
 `
 
+const ColumnWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 const OrderInfo = styled.span`
   color: ${colors.grayDark};
   font-size: 14px;
@@ -43,12 +48,12 @@ const TransactionFinish = ({
 }) => {
 	return (
 		<Wrapper>
-      <div style={{display: "flex", flexDirection: "column"}}>
+      <ColumnWrapper>
         <LabelTitle label="Thank you" />
         <OrderId>Order ID: {orderId}</OrderId>
         <OrderInfo>Your Order will be delivered {selectedShipment.estimation} with {selectedShipment.label}</OrderInfo>
-        <BackButton onClick={() => handleBack("reset")} title={backLabel[steps-1]}/>
-      </div>
+        <BackButton onClick={() => handleBack({isReset: true})} title={backLabel[steps-1]}/>
+      </ColumnWrapper>
     </Wrapper>
 	)
 }

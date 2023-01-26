@@ -29,12 +29,11 @@ const DeliveryDetail = ({
 	dropShip,
 	changeDropship,
 	formData,
-	onChangeInput,
-  register,
   errors,
   handleSubmit,
   getValues,
-  control
+  control,
+  changeForm
 }) => {
 	return (
 		<Wrapper>
@@ -66,6 +65,7 @@ const DeliveryDetail = ({
                         <TextInput
                           onChange={e => {
                             onChange(e)
+                            changeForm(e.target.name, e.target.value)
                           }}
                           onBlur={onBlur}
                           getValues={getValues}
@@ -91,6 +91,7 @@ const DeliveryDetail = ({
                        <TextAreaInput
                          onChange={e => {
                            onChange(e)
+                           changeForm(e.target.name, e.target.value)
                          }}
                          onBlur={onBlur}
                          getValues={getValues}
@@ -108,7 +109,6 @@ const DeliveryDetail = ({
             )
           })}
         </Col>
-        <button type="submit">Submit</button>
       </form>
 		</Wrapper>
 	)

@@ -1,1 +1,1 @@
-export const sampleSelector2 = (state) => state.checkout;
+export const checkoutSelectorState = (state) => state.checkout;

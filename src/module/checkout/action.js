@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DECREMENT2, SET_DELIVERY_DETAIL, SET_CHANGE_ACTION } from './types';
+import { SET_DELIVERY_DETAIL, SET_CHANGE_ACTION, DIRECT_SET_FORM_VALUE } from './types';
 
 export const setDeliveryDetail = (data, currentStep) => {
 	return {
@@ -11,6 +11,16 @@ export const setDeliveryDetail = (data, currentStep) => {
 	};
 };
 
+export const directChangeForm = (name, value) => {
+	return {
+		type: DIRECT_SET_FORM_VALUE,
+		payload: {
+			name, value
+		}
+	};
+};
+
+
 export const handleChangeAction = (name, value) => {
 	return {
 		type: SET_CHANGE_ACTION,
@@ -21,11 +31,6 @@ export const handleChangeAction = (name, value) => {
 	};
 };
 
-export const decreaseCounter = () => {
-	return {
-		type: DECREMENT2,
-	};
-};
 
 export const getApiData = () => {
 	return (_) =>

@@ -1,5 +1,6 @@
 import { generateRandomString } from 'utility/helper/helper';
-import { DECREMENT2, SET_DELIVERY_DETAIL, SET_CHANGE_ACTION } from './types';
+import { SET_DELIVERY_DETAIL, SET_CHANGE_ACTION, DIRECT_SET_FORM_VALUE } from './types';
+import _ from 'lodash';
 
 const INITIAL_STATE = {
 	field: {
@@ -24,14 +25,16 @@ const checkoutReducer = (state = INITIAL_STATE, action) => {
 				field: action.payload.data,
 				currentStep: action.payload.currentStep,
 			};
+		case DIRECT_SET_FORM_VALUE:
+			const {name, value} = action.payload
+			const cloneData = _.cloneDeep(state)
+			cloneData.field[name] = value
+
+			return cloneData;
 		case SET_CHANGE_ACTION:
 			return {
 				...state, 
 				[action.payload.pointer]: action.payload.data,
-			};
-		case DECREMENT2:
-			return {
-				...state, count: state.count - 1,
 			};
 		default: return state
 	}

@@ -1,36 +1,35 @@
 /* eslint-disable no-useless-escape */
-
 const validate = {
   important: {
-    required: "Harus di Isi"
+    required: "Field is required"
   } ,
   phoneNumber: {
-    required: "Harus di Isi",
+    required: "Field is required",
     pattern: {
       value: /^[0-9\+\-\(\)]+$/,
-      message: "Nomer telepon tidak Valid"
+      message: "Please input a valid phone number"
     },
     minLength: {
       value: 6,
-      message: "Minimal 5 karakter"
+      message: "Min 5 characters required"
     },
     maxLength: {
       value: 20,
-      message: "Maximal 20 karakter"
+      message: "Max 20 characters required"
     },
   },
   email: {
-    required: "Harus di Isi",
+    required: "Field is required",
     pattern: {
       value: /\S+@\S+\.\S+/,
-      message: "Masukan nilai email yang benar"
+      message: "Please input a valid email address"
     }
   },
   address: {
-    required: "Harus di Isi",
+    required: "Field is required",
     maxLength: {
       value: 120,
-      message: "Maximal 120 karakter"
+      message: "Max 120 characters required"
     },
   }
 }

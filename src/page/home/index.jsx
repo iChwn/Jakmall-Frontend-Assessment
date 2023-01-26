@@ -7,10 +7,10 @@ import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { formValidate } from "constant";
 import { useDispatch, useSelector } from "react-redux";
-import { sampleSelector2 } from "module/checkout/selector";
+import { checkoutSelectorState } from "module/checkout/selector";
 import store from "integration/store";
 import { persistStore } from 'redux-persist';
-import { handleChangeAction, setDeliveryDetail } from "module/checkout/action";
+import { directChangeForm, handleChangeAction, setDeliveryDetail } from "module/checkout/action";
 
 
 const Container = styled.div`
@@ -22,6 +22,7 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 10px;
     padding-bottom: 10px;
+    height: auto;
   }
 `;
 
@@ -37,6 +38,15 @@ const WrapperContent = styled.div`
   // margin: 0 auto;
   // max-width: 1600px;
 `
+
+const CustomCol = styled(Col)`
+  height: 100%;
+  padding: 15px;
+  @media (max-width: 768px) {
+    padding: 0;
+  }
+`;
+
 const backLabel = ["Back to Cart", "Back to Delivery", "Go to Homepage"]
 const stepList  = ["Delivery", "Payment", "Finish"]
 const itemPrice = 500000;
@@ -44,7 +54,7 @@ const dropshipPrice = 5900;
 
 const HomePage = () => {
   const dispatch = useDispatch()
-  const checkoutSelector = useSelector(sampleSelector2)
+  const checkoutSelector = useSelector(checkoutSelectorState)
 
   const [steps, setSteps] = useState(checkoutSelector.currentStep)
   const [isDropShip, setIsDropShip] = useState(checkoutSelector.isDropShip)
@@ -143,16 +153,24 @@ const HomePage = () => {
     if(isDropShip) {
       register("dropshipperName", formValidate.important)
       register("dropshipPhoneNumber", formValidate.phoneNumber)
+
       cloneData[1].disabled = false
       cloneData[3].disabled = false
     } else {
       unregister(["dropshipperName", "dropshipPhoneNumber"])
-      // reset({dropshipperName: "", dropshipPhoneNumber: ""})
+      setValue("dropshipperName", "")
+      setValue("dropshipPhoneNumber", "")
+
       cloneData[1].disabled = true
       cloneData[3].disabled = true
     }
-
+    
+    const cloneFormValue = getValues()
+    cloneFormValue.dropshipperName = ""
+    cloneFormValue.dropshipPhoneNumber = ""
+    
     setFormToState(cloneData)
+    dispatch(setDeliveryDetail(cloneFormValue, steps))
     dispatch(handleChangeAction("isDropShip", isDropShip))
   }, [isDropShip])
 
@@ -166,12 +184,12 @@ const HomePage = () => {
     handleChangeList("payment", selectedPayment)
   }, [])
 
-  const onSubmit = (data) => {
+  const onFormSubmit = (data) => {
     setSteps(2)
     dispatch(setDeliveryDetail(data, 2))
   };
 
-  const handleBack = (isReset) => {
+  const handleBack = ({isReset = false}) => {
     if(isReset) {
       persistStore(store().store).purge();
       window.location.reload()
@@ -221,17 +239,16 @@ const HomePage = () => {
     total += itemPrice
     return total
   }
+
+  const changeFormHandler = (name, value) => {
+    dispatch(directChangeForm(name, value))
+  }
  
   const selectedShipment = shipmentList.find(shipment => shipment.isChecked === true)
   const selectedPayment = paymentList.find(shipment => shipment.isChecked === true)
-  
-  const resetPresist = () => {
-    persistStore(store().store).purge();
-  }
 
   return (
     <Container>
-      <button onClick={resetPresist}>RESETS</button>
       <Card>
         <HeaderWrapper>
           <Stepper stepList={stepList} currentStep={steps}/>
@@ -240,18 +257,18 @@ const HomePage = () => {
           <BackButton onClick={handleBack} title={backLabel[steps-1]} style={{paddingLeft: 30}}/>
         )}
         <WrapperContent>
-          <Col style={{height: "100%", padding: 15}}>
+          <CustomCol>
             <Row cols={8} style={{padding: "20px", paddingTop: 0}}>
               {steps === 1 && (
                 <DeliveryDetail 
                   dropShip={isDropShip} 
                   changeDropship={setIsDropShip}
                   formData={formToState}
-                  register={register}
                   errors={errors}
-                  handleSubmit={handleSubmit(onSubmit)}
+                  handleSubmit={handleSubmit(onFormSubmit)}
                   getValues={getValues}
                   control={control}
+                  changeForm={changeFormHandler}
                 />
               )}
               {steps === 2 && (
@@ -271,10 +288,10 @@ const HomePage = () => {
                 />
               )}
             </Row>
-            <Row cols={4}>
+            <Row cols={4} style={{padding: "20px"}}>
               <Summary 
                 isDropShip={isDropShip}
-                handleFormSubmit={handleSubmit(onSubmit)} 
+                handleFormSubmit={handleSubmit(onFormSubmit)} 
                 handleChangeStep={() => {
                   setSteps(steps + 1)
                   dispatch(handleChangeAction("currentStep", steps + 1))
@@ -287,7 +304,7 @@ const HomePage = () => {
                 calculatePrice={calculatePrice}
               />
             </Row>
-          </Col>
+          </CustomCol>
         </WrapperContent>
       </Card>
     </Container>
