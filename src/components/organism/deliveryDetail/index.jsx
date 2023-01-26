@@ -9,6 +9,7 @@ import {
 	TextAreaInput,
 	TextInput,
 } from 'components'
+import { Controller } from 'react-hook-form'
 
 const Wrapper = styled.div``
 const TitleHeader = styled.div`
@@ -32,7 +33,8 @@ const DeliveryDetail = ({
   register,
   errors,
   handleSubmit,
-  getValues
+  getValues,
+  control
 }) => {
 	return (
 		<Wrapper>
@@ -53,29 +55,54 @@ const DeliveryDetail = ({
                 {(result.type === 'email' ||
                   result.type === 'text' ||
                   result.type === 'number') && (
-                  <TextInput
-                    getValues={getValues}
-                    type={result.type}
+                  <Controller 
+                    control={control}
                     name={result.name}
-                    value={result.value}
-                    onChange={onChangeInput}
-                    placeholder={result.placeholder}
-                    error={errors[result.name]}
-                    disabled={result.disabled}
-                    {...register(result.name, result.rules)}
+                    rules={result.rules}
+                    render={({
+                      field: { onChange, onBlur, value }
+                    }) => {
+                      return (
+                        <TextInput
+                          onChange={e => {
+                            onChange(e)
+                          }}
+                          onBlur={onBlur}
+                          getValues={getValues}
+                          type={result.type}
+                          name={result.name}
+                          value={value}
+                          placeholder={result.placeholder}
+                          error={errors[result.name]}
+                          disabled={result.disabled}
+                        />
+                    )}}
                   />
                 )}
                 {result.type === 'textarea' && (
-                  <TextAreaInput
-                    getValues={getValues}
-                    type={result.type}
-                    name={result.name}
-                    value={result.value}
-                    onChange={onChangeInput}
-                    placeholder={result.placeholder}
-                    error={errors[result.name]}
-                    {...register(result.name, result.rules)}
-                  />
+                  <Controller 
+                   control={control}
+                   name={result.name}
+                   rules={result.rules}
+                   render={({
+                     field: { onChange, onBlur, value }
+                   }) => {
+                     return (
+                       <TextAreaInput
+                         onChange={e => {
+                           onChange(e)
+                         }}
+                         onBlur={onBlur}
+                         getValues={getValues}
+                         type={result.type}
+                         name={result.name}
+                         value={value}
+                         placeholder={result.placeholder}
+                         error={errors[result.name]}
+                         disabled={result.disabled}
+                       />
+                   )}}
+                 />
                 )}
               </Row>
             )

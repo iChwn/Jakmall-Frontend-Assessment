@@ -5,6 +5,7 @@ import store from "integration/store";
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { PersistGate } from 'redux-persist/integration/react'
 import "./assets/css/tailwind.css";
 import "./index.css";
 
@@ -23,10 +24,12 @@ const queryClient = new QueryClient({
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Provider store={store()}>
-      <QueryClientProvider client={queryClient}>
-        <App />
-      </QueryClientProvider>
+    <Provider store={store().store}>
+      <PersistGate loading={null} persistor={store().persistor}>
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );

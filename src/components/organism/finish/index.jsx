@@ -38,15 +38,16 @@ const TransactionFinish = ({
 	selectedShipment,
   handleBack,
   backLabel,
-  steps
+  steps,
+  orderId
 }) => {
 	return (
 		<Wrapper>
       <div style={{display: "flex", flexDirection: "column"}}>
         <LabelTitle label="Thank you" />
-        <OrderId>Order ID: XXKYB</OrderId>
+        <OrderId>Order ID: {orderId}</OrderId>
         <OrderInfo>Your Order will be delivered {selectedShipment.estimation} with {selectedShipment.label}</OrderInfo>
-        <BackButton onClick={handleBack} title={backLabel[steps-1]}/>
+        <BackButton onClick={() => handleBack("reset")} title={backLabel[steps-1]}/>
       </div>
     </Wrapper>
 	)

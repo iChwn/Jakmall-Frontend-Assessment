@@ -6,6 +6,12 @@ import { BackButton, Card, Col, DeliveryDetail, PaymentDetail, Row, Stepper, Sum
 import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { formValidate } from "constant";
+import { useDispatch, useSelector } from "react-redux";
+import { sampleSelector2 } from "module/checkout/selector";
+import store from "integration/store";
+import { persistStore } from 'redux-persist';
+import { handleChangeAction, setDeliveryDetail } from "module/checkout/action";
+
 
 const Container = styled.div`
   background-color: #FFFAE6;
@@ -27,7 +33,9 @@ const HeaderWrapper = styled.div`
 `
 
 const WrapperContent = styled.div`
-  flex: 1
+  flex: 1;
+  // margin: 0 auto;
+  // max-width: 1600px;
 `
 const backLabel = ["Back to Cart", "Back to Delivery", "Go to Homepage"]
 const stepList  = ["Delivery", "Payment", "Finish"]
@@ -35,8 +43,11 @@ const itemPrice = 500000;
 const dropshipPrice = 5900;
 
 const HomePage = () => {
-  const [steps, setSteps] = useState(1)
-  const [isDropShip, setIsDropShip] = useState(true)
+  const dispatch = useDispatch()
+  const checkoutSelector = useSelector(sampleSelector2)
+
+  const [steps, setSteps] = useState(checkoutSelector.currentStep)
+  const [isDropShip, setIsDropShip] = useState(checkoutSelector.isDropShip)
   const [formToState, setFormToState] = useState([
     {
       placeholder: "Email",
@@ -124,7 +135,7 @@ const HomePage = () => {
     }
   ])
   
-  const { register, handleSubmit, formState: { errors }, getValues, unregister, reset } = useForm();
+  const { register, handleSubmit, formState: { errors }, getValues, setValue, unregister, control } = useForm({mode: "onChange"});
 
   useEffect(() => {
     let cloneData = _.cloneDeep(formToState)
@@ -136,24 +147,37 @@ const HomePage = () => {
       cloneData[3].disabled = false
     } else {
       unregister(["dropshipperName", "dropshipPhoneNumber"])
-      reset({dropshipperName: "", dropshipPhoneNumber: ""})
+      // reset({dropshipperName: "", dropshipPhoneNumber: ""})
       cloneData[1].disabled = true
       cloneData[3].disabled = true
     }
 
     setFormToState(cloneData)
+    dispatch(handleChangeAction("isDropShip", isDropShip))
   }, [isDropShip])
 
+  useEffect(() => {
+    const { field, selectedPayment, selectedShipment } = checkoutSelector
+    Object.keys(field).forEach(function(key) {
+      setValue(key, field[key])
+    });
+
+    handleChangeList("shipment", selectedShipment)
+    handleChangeList("payment", selectedPayment)
+  }, [])
+
   const onSubmit = (data) => {
-    console.log(data);
     setSteps(2)
+    dispatch(setDeliveryDetail(data, 2))
   };
 
-  const handleBack = () => {
-    if(steps === 2) {
+  const handleBack = (isReset) => {
+    if(isReset) {
+      persistStore(store().store).purge();
+      window.location.reload()
+    } else {
       setSteps(1)
-    } else if(steps === 3) {
-      setSteps(1)
+      dispatch(handleChangeAction("currentStep", 1))
     }
   }
 
@@ -169,6 +193,7 @@ const HomePage = () => {
       filteredForm.isChecked = true
 
       setShipmentList(cloneData)
+      dispatch(handleChangeAction("selectedShipment", id))
     } else {
       cloneData = _.cloneDeep(paymentList).map((payment) => ({
         ...payment,
@@ -179,6 +204,7 @@ const HomePage = () => {
       filteredForm.isChecked = true
 
       setPaymentList(cloneData)
+      dispatch(handleChangeAction("selectedPayment", id))
     }
   }
 
@@ -198,9 +224,14 @@ const HomePage = () => {
  
   const selectedShipment = shipmentList.find(shipment => shipment.isChecked === true)
   const selectedPayment = paymentList.find(shipment => shipment.isChecked === true)
+  
+  const resetPresist = () => {
+    persistStore(store().store).purge();
+  }
 
   return (
     <Container>
+      <button onClick={resetPresist}>RESETS</button>
       <Card>
         <HeaderWrapper>
           <Stepper stepList={stepList} currentStep={steps}/>
@@ -220,6 +251,7 @@ const HomePage = () => {
                   errors={errors}
                   handleSubmit={handleSubmit(onSubmit)}
                   getValues={getValues}
+                  control={control}
                 />
               )}
               {steps === 2 && (
@@ -235,6 +267,7 @@ const HomePage = () => {
                   handleBack={handleBack}
                   backLabel={backLabel}
                   steps={steps}
+                  orderId={checkoutSelector.orderId}
                 />
               )}
             </Row>
@@ -242,7 +275,10 @@ const HomePage = () => {
               <Summary 
                 isDropShip={isDropShip}
                 handleFormSubmit={handleSubmit(onSubmit)} 
-                handleChangeStep={() => setSteps(steps + 1)}
+                handleChangeStep={() => {
+                  setSteps(steps + 1)
+                  dispatch(handleChangeAction("currentStep", steps + 1))
+                }}
                 selectedPayment={selectedPayment}
                 selectedShipment={selectedShipment}
                 currentStep={steps}
