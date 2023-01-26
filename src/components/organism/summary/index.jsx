@@ -51,6 +51,7 @@ const Section = styled.div`
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
+  flex: ${props => props.flex1 ? "1" : "0"}
 `
 
 const Boundaries = styled.div`
@@ -67,16 +68,19 @@ const Summary = ({
   handleChangeStep, 
   currentStep, 
   selectedPayment, 
-  selectedShipment 
+  selectedShipment,
+  itemPrice,
+  dropshipPrice,
+  calculatePrice
 }) => {
 	return (
 		<SectionWrapper>
-			<Section style={{ display: "flex", flex: 1, flexDirection: "column" }}>
+			<Section flex1={true}>
 				<Row cols={12}>
 					<H3Label>Summary</H3Label>
 					<LabelLight>10 items purchased</LabelLight>
 				</Row>
-        {currentStep > 2 && (
+        {currentStep >= 2 && (
           <Row cols={12} style={{ marginTop: 20, position: "relative" }}>
             <Boundaries />
             <LabelNormal>Delivery estimation</LabelNormal> <br />
@@ -94,15 +98,15 @@ const Summary = ({
 			<Section>
 				<WrapperSpaceBetween>
 					<LabelLight>10 items purchased</LabelLight>
-					<LabelStrong>500,000</LabelStrong>
+					<LabelStrong>{convert3Digit(itemPrice)}</LabelStrong>
 				</WrapperSpaceBetween>
         {isDropShip && (
           <WrapperSpaceBetween>
             <LabelLight>Dropshipping Fee</LabelLight>
-            <LabelStrong>5,900</LabelStrong>
+            <LabelStrong>{convert3Digit(dropshipPrice)}</LabelStrong>
           </WrapperSpaceBetween>
         )}
-        {currentStep > 2 && (
+        {currentStep >= 2 && (
           <WrapperSpaceBetween>
             <LabelLight><strong>{selectedShipment.label}</strong> Shipment</LabelLight>
             <LabelStrong>{convert3Digit(selectedShipment.value)}</LabelStrong>
@@ -110,7 +114,7 @@ const Summary = ({
         )}
 				<WrapperSpaceBetween style={{ margin: "20px 0px" }}>
 					<H3Label>Total</H3Label>
-					<H3Label>505,900</H3Label>
+					<H3Label>{convert3Digit(calculatePrice())}</H3Label>
 				</WrapperSpaceBetween>
 				{currentStep === 1 && (
 					<BaseButton onClick={handleFormSubmit} title="Continue to Payment" />

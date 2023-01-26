@@ -1,9 +1,8 @@
-/* eslint-disable no-useless-escape */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 import "assets/css/custom.scss"
 import styled from "styled-components";
-import { BackButton, Card, Col, DeliveryDetail, PaymentDetail, Row, Stepper, Summary } from "components";
+import { BackButton, Card, Col, DeliveryDetail, PaymentDetail, Row, Stepper, Summary, TransactionFinish } from "components";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { formValidate } from "constant";
@@ -32,9 +31,11 @@ const WrapperContent = styled.div`
 `
 const backLabel = ["Back to Cart", "Back to Delivery", "Go to Homepage"]
 const stepList  = ["Delivery", "Payment", "Finish"]
+const itemPrice = 500000;
+const dropshipPrice = 5900;
 
 const HomePage = () => {
-  const [steps, setSteps] = useState(2)
+  const [steps, setSteps] = useState(1)
   const [isDropShip, setIsDropShip] = useState(true)
   const [formToState, setFormToState] = useState([
     {
@@ -122,6 +123,7 @@ const HomePage = () => {
       isChecked: false
     }
   ])
+  
   const { register, handleSubmit, formState: { errors }, getValues, unregister, reset } = useForm();
 
   useEffect(() => {
@@ -151,7 +153,7 @@ const HomePage = () => {
     if(steps === 2) {
       setSteps(1)
     } else if(steps === 3) {
-      setSteps(2)
+      setSteps(1)
     }
   }
 
@@ -179,8 +181,21 @@ const HomePage = () => {
       setPaymentList(cloneData)
     }
   }
+
+  const calculatePrice = () => {
+    let total = 0
+    if(isDropShip) {
+      total += dropshipPrice
+    }
+
+    if(steps >= 2) {
+      total += selectedShipment.value
+    }
+
+    total += itemPrice
+    return total
+  }
  
-  console.log(errors)
   const selectedShipment = shipmentList.find(shipment => shipment.isChecked === true)
   const selectedPayment = paymentList.find(shipment => shipment.isChecked === true)
 
@@ -190,7 +205,9 @@ const HomePage = () => {
         <HeaderWrapper>
           <Stepper stepList={stepList} currentStep={steps}/>
         </HeaderWrapper>
-        <BackButton onClick={handleBack} title={backLabel[steps-1]} style={{paddingLeft: 30}}/>
+        {steps !== 3 && (
+          <BackButton onClick={handleBack} title={backLabel[steps-1]} style={{paddingLeft: 30}}/>
+        )}
         <WrapperContent>
           <Col style={{height: "100%", padding: 15}}>
             <Row cols={8} style={{padding: "20px", paddingTop: 0}}>
@@ -212,6 +229,14 @@ const HomePage = () => {
                   handleChange={handleChangeList}
                 />
               )}
+              {steps === 3 && (
+                <TransactionFinish 
+                  selectedShipment={selectedShipment}
+                  handleBack={handleBack}
+                  backLabel={backLabel}
+                  steps={steps}
+                />
+              )}
             </Row>
             <Row cols={4}>
               <Summary 
@@ -221,6 +246,9 @@ const HomePage = () => {
                 selectedPayment={selectedPayment}
                 selectedShipment={selectedShipment}
                 currentStep={steps}
+                itemPrice={itemPrice}
+                dropshipPrice={dropshipPrice}
+                calculatePrice={calculatePrice}
               />
             </Row>
           </Col>

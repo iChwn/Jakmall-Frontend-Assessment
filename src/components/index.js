@@ -20,6 +20,7 @@ import Stepper from './molecules/stepper'
 import Summary from './organism/summary'
 import DeliveryDetail from './organism/deliveryDetail'
 import PaymentDetail from './organism/paymentDetail'
+import TransactionFinish from './organism/finish'
 
 export {
 	Card,
@@ -37,5 +38,6 @@ export {
 	DeliveryDetail,
 	BackButton,
 	PaymentDetail,
-	ListItemCard
+	ListItemCard,
+	TransactionFinish
 }
