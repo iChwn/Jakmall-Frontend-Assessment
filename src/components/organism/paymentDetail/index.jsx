@@ -1,12 +1,13 @@
-import React from 'react'
-import 'assets/css/custom.scss'
-import styled from 'styled-components'
+import React from "react"
+import "assets/css/custom.scss"
+import styled from "styled-components"
 import {
   Col,
 	LabelTitle,
 	ListItemCard,
   Row,
-} from 'components'
+} from "components"
+import PropTypes from "prop-types"
 
 const Wrapper = styled.div``
 const TitleHeader = styled.div`
@@ -74,5 +75,17 @@ const PaymentDetail = ({
 		</Wrapper>
 	)
 }
+
+PaymentDetail.propTypes = {
+  shipmentList: PropTypes.array,
+	paymentList: PropTypes.array,
+  handleChange: PropTypes.func,
+};
+
+PaymentDetail.defaultProps = {
+  shipmentList: [],
+	paymentList: [],
+  handleChange: () => {},
+};
 
 export default PaymentDetail

@@ -148,6 +148,17 @@ const HomePage = () => {
   const { register, handleSubmit, formState: { errors }, getValues, setValue, unregister, control } = useForm({mode: "onChange"});
 
   useEffect(() => {
+    const { field, selectedPayment, selectedShipment } = checkoutSelector
+    Object.keys(field).forEach(function(key) {
+      setValue(key, field[key])
+    });
+
+    handleChangeList("shipment", selectedShipment)
+    handleChangeList("payment", selectedPayment)
+  }, [])
+
+  useEffect(() => {
+    console.log("WKWK")
     let cloneData = _.cloneDeep(formToState)
 
     if(isDropShip) {
@@ -160,29 +171,21 @@ const HomePage = () => {
       unregister(["dropshipperName", "dropshipPhoneNumber"])
       setValue("dropshipperName", "")
       setValue("dropshipPhoneNumber", "")
-
+      
+      const cloneFormValueHook = getValues()
+      cloneFormValueHook.dropshipperName = ""
+      cloneFormValueHook.dropshipPhoneNumber = ""
       cloneData[1].disabled = true
       cloneData[3].disabled = true
+
+      dispatch(setDeliveryDetail(cloneFormValueHook, steps))
     }
     
-    const cloneFormValue = getValues()
-    cloneFormValue.dropshipperName = ""
-    cloneFormValue.dropshipPhoneNumber = ""
+    
     
     setFormToState(cloneData)
-    dispatch(setDeliveryDetail(cloneFormValue, steps))
     dispatch(handleChangeAction("isDropShip", isDropShip))
   }, [isDropShip])
-
-  useEffect(() => {
-    const { field, selectedPayment, selectedShipment } = checkoutSelector
-    Object.keys(field).forEach(function(key) {
-      setValue(key, field[key])
-    });
-
-    handleChangeList("shipment", selectedShipment)
-    handleChangeList("payment", selectedPayment)
-  }, [])
 
   const onFormSubmit = (data) => {
     setSteps(2)

@@ -52,10 +52,18 @@ const ListItemCard = ({title, isChecked, price, onClick}) => {
 
 ListItemCard.propTypes = {
   children: PropTypes.node,
+  title: PropTypes.string, 
+  isChecked: PropTypes.bool, 
+  price: PropTypes.number, 
+  onClick: PropTypes.func
 };
 
 ListItemCard.defaultProps = {
   children: <div />,
+  title: "", 
+  isChecked: "", 
+  price: 0, 
+  onClick: () => {}
 };
 
 export default ListItemCard;

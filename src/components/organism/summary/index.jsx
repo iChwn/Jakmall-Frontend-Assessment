@@ -4,6 +4,7 @@ import { colors } from "constant"
 import React from "react"
 import styled from "styled-components"
 import { convert3Digit } from "utility/helper/helper"
+import PropTypes from "prop-types"
 
 const SectionWrapper = styled.div`
 	height: 100%;
@@ -130,5 +131,30 @@ const Summary = ({
 		</SectionWrapper>
 	)
 }
+
+Summary.propTypes = {
+  isDropShip: PropTypes.bool,
+  handleFormSubmit: PropTypes.func, 
+  handleChangeStep: PropTypes.func, 
+  currentStep: PropTypes.number, 
+  selectedPayment: PropTypes.object, 
+  selectedShipment: PropTypes.object,
+  itemPrice: PropTypes.number,
+  dropshipPrice: PropTypes.number,
+  calculatePrice: PropTypes.number
+};
+
+Summary.defaultProps = {
+  isDropShip: true,
+  handleFormSubmit: () => {}, 
+  handleChangeStep: () => {}, 
+  currentStep: 1, 
+  selectedPayment: {}, 
+  selectedShipment: {},
+  itemPrice: 0,
+  dropshipPrice: 0,
+  calculatePrice: 0
+};
+
 
 export default Summary

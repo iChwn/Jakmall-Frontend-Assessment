@@ -1,10 +1,10 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import styled from 'styled-components'
-import { colors } from 'constant'
-import { IconList } from 'assets/image'
-import { handdleValidateFieldStyle } from 'utility/helper/helper'
-import ErrorLabel from '../label/errorLabel'
+import React from "react"
+import PropTypes from "prop-types"
+import styled from "styled-components"
+import { colors } from "constant"
+import { IconList } from "assets/image"
+import { handdleValidateFieldStyle } from "utility/helper/helper"
+import ErrorLabel from "../label/errorLabel"
 
 const InputContainer = styled.div`
 	position: relative;
@@ -30,7 +30,7 @@ const Input = styled.textarea`
 	transition: border 500ms;
 	padding: 20px 6px 6px 16px;
 	font-size: 1rem;
-  resize: none;
+	resize: none;
 	z-index: 1;
 	:focus {
 		outline: none;
@@ -72,8 +72,8 @@ const InputIcon = styled.img`
 `
 
 const Limiter = styled.span`
-  color: ${colors.grayUltraLight};
-  font-size: 14px;
+	color: ${colors.grayUltraLight};
+	font-size: 14px;
 `
 
 const LabelBetween = styled.div`
@@ -81,69 +81,75 @@ const LabelBetween = styled.div`
 	justify-content: space-between;
 `
 
-const TextAreaInput = React.forwardRef(
-	(
-		{
-			value,
-			getValues,
-			name,
-			type,
-			placeholder,
-			disabled,
-			error,
-			onChange,
-			onBlur,
-		},
-		ref
-	) => {
-		const isError = error !== undefined
-    const hasValue = getValues(name)
+const TextAreaInput = ({
+	value,
+	getValues,
+	name,
+	type,
+	placeholder,
+	disabled,
+	error,
+	onChange,
+	onBlur,
+}) => {
+	const isError = error !== undefined
+	const hasValue = getValues(name)
 
-		return (
-			<div>
-        <InputContainer disabled={disabled} isError={isError} hasValue={hasValue}>
-          <Input
-            ref={ref}
-            type={type}
-            name={name}
-            autoComplete='off'
-            disabled={disabled}
-            placeholder={placeholder}
-            onChange={onChange}
-            onBlur={onBlur}
-            value={value}
-            rows={4}
-          />
-          <InputLabel isError={isError} hasValue={hasValue}>
-            {placeholder}
-          </InputLabel>
-          {isError && (
-            <InputIcon src={IconList.CloseIcon} alt=''/>
-          )}
-          {(!isError && hasValue) && (
-            <InputIcon src={IconList.CheckIcon} alt=''/>
-          )}
-        </InputContainer>
-				<LabelBetween>
-					{error !== undefined && <ErrorLabel title={error.message} />} {" "}
-					<span/>
-					<Limiter>{getValues(name) ? getValues(name).length : 0}/120 Karakter</Limiter>
-				</LabelBetween>
-      </div>
-		)
-	}
-)
+	return (
+		<div>
+			<InputContainer disabled={disabled} isError={isError} hasValue={hasValue}>
+				<Input
+					type={type}
+					name={name}
+					autoComplete="off"
+					disabled={disabled}
+					placeholder={placeholder}
+					onChange={onChange}
+					onBlur={onBlur}
+					value={value}
+					rows={4}
+				/>
+				<InputLabel isError={isError} hasValue={hasValue}>
+					{placeholder}
+				</InputLabel>
+				{isError && <InputIcon src={IconList.CloseIcon} alt="" />}
+				{!isError && hasValue && <InputIcon src={IconList.CheckIcon} alt="" />}
+			</InputContainer>
+			<LabelBetween>
+				{error !== undefined && <ErrorLabel title={error.message} />} <span />
+				<Limiter>
+					{getValues(name) ? getValues(name).length : 0}/120 Karakter
+				</Limiter>
+			</LabelBetween>
+		</div>
+	)
+}
 
 TextAreaInput.propTypes = {
-	data: PropTypes.object,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.number
+	]),
+	getValues: PropTypes.func,
+	name: PropTypes.string,
+	type: PropTypes.string,
+	placeholder: PropTypes.string,
+	disabled: PropTypes.bool,
+	error: PropTypes.object,
+	onChange: PropTypes.func,
+	onBlur: PropTypes.func,
 }
 
 TextAreaInput.defaultProps = {
-	placeholder: '',
-	type: '',
-	value: '',
+	value: "",
+	getValues: () => {},
+	name: "",
+	type: "text",
+	placeholder: "",
 	disabled: false,
+	error: undefined,
+	onChange: () => {},
+	onBlur: () => {},
 }
 
 export default TextAreaInput

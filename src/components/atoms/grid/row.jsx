@@ -24,7 +24,8 @@ Rows.propTypes = {
 };
 
 Rows.defaultProps = {
-  cols: 2
+  cols: 2,
+  children: <div />
 };
 
 export default Row;

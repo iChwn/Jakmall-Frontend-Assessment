@@ -1,6 +1,6 @@
-import React from 'react'
-import 'assets/css/custom.scss'
-import styled from 'styled-components'
+import React from "react"
+import "assets/css/custom.scss"
+import styled from "styled-components"
 import {
 	Checkbox,
 	Col,
@@ -8,8 +8,9 @@ import {
 	Row,
 	TextAreaInput,
 	TextInput,
-} from 'components'
-import { Controller } from 'react-hook-form'
+} from "components"
+import { Controller } from "react-hook-form"
+import PropTypes from "prop-types";
 
 const Wrapper = styled.div``
 const TitleHeader = styled.div`
@@ -38,9 +39,9 @@ const DeliveryDetail = ({
 	return (
 		<Wrapper>
 			<TitleHeader>
-				<LabelTitle label='Delivery Detail' />
+				<LabelTitle label="Delivery Detail" />
 				<Checkbox
-					label='Send as Dropshipper'
+					label="Send as Dropshipper"
 					isChecked={dropShip}
 					onChange={() => changeDropship(!dropShip)}
 					style={{ marginRight: 20 }}
@@ -51,9 +52,9 @@ const DeliveryDetail = ({
           {formData.map((result, index) => {
             return (
               <Row cols={result.cols} key={index}>
-                {(result.type === 'email' ||
-                  result.type === 'text' ||
-                  result.type === 'number') && (
+                {(result.type === "email" ||
+                  result.type === "text" ||
+                  result.type === "number") && (
                   <Controller 
                     control={control}
                     name={result.name}
@@ -79,7 +80,7 @@ const DeliveryDetail = ({
                     )}}
                   />
                 )}
-                {result.type === 'textarea' && (
+                {result.type === "textarea" && (
                   <Controller 
                    control={control}
                    name={result.name}
@@ -113,5 +114,27 @@ const DeliveryDetail = ({
 		</Wrapper>
 	)
 }
+
+DeliveryDetail.propTypes = {
+  dropShip: PropTypes.bool,
+	changeDropship: PropTypes.func,
+	formData: PropTypes.array,
+  errors: PropTypes.object,
+  handleSubmit: PropTypes.func,
+  getValues: PropTypes.func,
+  control: PropTypes.func,
+  changeForm: PropTypes.func
+};
+
+DeliveryDetail.defaultProps = {
+  dropShip: false,
+	changeDropship: () => {},
+	formData: [],
+  errors: undefined,
+  handleSubmit: () => {},
+  getValues: () => {},
+  control: () => {},
+  changeForm: () => {}
+};
 
 export default DeliveryDetail

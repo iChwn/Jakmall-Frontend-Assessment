@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
-import { IconList } from 'assets/image'
-import { colors } from 'constant'
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import { IconList } from "assets/image"
+import { colors } from "constant"
+import React from "react"
+import styled from "styled-components"
+import PropTypes from "prop-types"
 
 const StepperWrapper = styled.div`
 	padding: 0px 30px;
@@ -55,7 +55,6 @@ const StepLabel = styled.div`
 `
 
 const Stepper = ({stepList, currentStep}) => {
-	
 	return (
 		<StepperWrapper>
 			{stepList.map((result, index) => {
@@ -65,8 +64,8 @@ const Stepper = ({stepList, currentStep}) => {
 						<StepLabel>{result}</StepLabel>
 						{index + 1 !== stepList.length && (
 							<StepLabel style={{ marginLeft: 10, marginRight: 10 }}>
-								{' '}
-								<img src={IconList.CheveronRight} alt='' width={20} />{' '}
+								{" "}
+								<img src={IconList.CheveronRight} alt="" width={20} />{" "}
 							</StepLabel>
 						)}
 					</StepWrapper>
@@ -74,6 +73,16 @@ const Stepper = ({stepList, currentStep}) => {
 			})}
 		</StepperWrapper>
 	)
+}
+
+Stepper.propTypes = {
+	stepList: PropTypes.array,
+	currentStep: PropTypes.number,
+}
+
+Stepper.defaultProps = {
+	stepList: [],
+	currentStep: 1,
 }
 
 export default Stepper

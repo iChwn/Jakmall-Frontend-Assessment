@@ -1,11 +1,12 @@
-import React from 'react'
-import 'assets/css/custom.scss'
-import styled from 'styled-components'
+import React from "react"
+import "assets/css/custom.scss"
+import styled from "styled-components"
 import {
   BackButton,
 	LabelTitle,
-} from 'components'
-import { colors } from 'constant'
+} from "components"
+import { colors } from "constant"
+import PropTypes from "prop-types"
 
 const Wrapper = styled.div`
 	display: flex;
@@ -57,5 +58,21 @@ const TransactionFinish = ({
     </Wrapper>
 	)
 }
+
+TransactionFinish.propTypes = {
+  selectedShipment: PropTypes.object,
+  handleBack: PropTypes.func,
+  backLabel: PropTypes.string,
+  steps: PropTypes.number,
+  orderId: PropTypes.string,
+};
+
+TransactionFinish.defaultProps = {
+  selectedShipment: {},
+  handleBack: () => {},
+  backLabel: "",
+  steps: 1,
+  orderId: "",
+};
 
 export default TransactionFinish

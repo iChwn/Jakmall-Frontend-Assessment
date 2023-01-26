@@ -23,10 +23,13 @@ const Col = ({children, style, className}) => {
 
 
 Col.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  className: PropTypes.string
 };
 
 Col.defaultProps = {
+  children: <div/>,
+  className: ""
 };
 
 

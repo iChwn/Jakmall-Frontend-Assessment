@@ -71,7 +71,7 @@ const InputIcon = styled.img`
 	width: 20px;
 `
 
-const TextInput = React.forwardRef(
+const TextInput = 
 	(
 		{
 			value,
@@ -83,8 +83,7 @@ const TextInput = React.forwardRef(
 			error,
 			onChange,
 			onBlur
-		},
-		ref
+		}
 	) => {
 		const isError = error !== undefined
     const hasValue = getValues(name)
@@ -93,7 +92,6 @@ const TextInput = React.forwardRef(
 			<div>
 				<InputContainer disabled={disabled} isError={isError} hasValue={hasValue}>
 					<Input
-						ref={ref}
 						type={type}
 						name={name}
 						autoComplete="off"
@@ -118,18 +116,33 @@ const TextInput = React.forwardRef(
 			</div>
 		)
 	}
-)
+
 
 TextInput.propTypes = {
-	data: PropTypes.object,
-	value: PropTypes.string,
+	value: PropTypes.oneOfType([
+		PropTypes.string,
+		PropTypes.number
+	]),
+	getValues: PropTypes.func,
+	name: PropTypes.string,
+	type: PropTypes.string,
+	placeholder: PropTypes.string,
+	disabled: PropTypes.bool,
+	error: PropTypes.object,
+	onChange: PropTypes.func,
+	onBlur: PropTypes.func,
 }
 
 TextInput.defaultProps = {
-	placeholder: "",
-	type: "",
 	value: "",
+	getValues: () => {},
+	name: "",
+	type: "text",
+	placeholder: "",
 	disabled: false,
+	error: undefined,
+	onChange: () => {},
+	onBlur: () => {},
 }
 
 export default TextInput
