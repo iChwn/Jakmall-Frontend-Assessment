@@ -1,47 +1,31 @@
-# Getting Started with Create React App
+# Jakmall Assessment
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web ini di buat dengan Menggunakan React Js Versi 18.2.0.
+Clone Project ini lalu ketikan perintah `npm i` untuk menginstall node_modules,
+setelah selesai instalasi gunakan perintah di bawah ini untuk menjalankan pada local server.
 
-## Available Scripts
+`npm run start:develop`
 
-In the project directory, you can run:
+## Package Yang digunakan
 
-### `npm run start:[env]`
+- Lodash
+- Redux
+- Redux Persist
+- Styled Component
+- React Hook Form
+- Redux Devtool
+- React Router / dom
+- Tailwind (digunakan hanya core nya untuk seluruh komponen di buat dengan styled-component)
 
-If you want to runs the app in the development mode use `npm run start:develop`.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## User Story
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+halaman yang telah di buat sudah termasuk support dengan mobile view.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build:[env]`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-# How to contributing
-For starter, if you contribute on this project, please create a new branch on `git` for seperate
-workspace from the others contributor. And classified that you working on based on this list:
-- `feature/{name or module}` => For working on some new feature.
-- `fixing/{name or module}` => For working on fixing some bug.
-- `enhancement/{feature name or module}` => For working on if your feature got some improvement.
+- Masuk ke halaman Delivery Detail
+- Kemudian isi form
+- Lalu klik button "Continue to Payment"
+- Lalu akan masuk ke halaman Shipment & Payment
+- Pilih kurur & pembayaran
+- Kemudian klik button Pay
+- Kemudian halaman akan menampilkan informasi sukses checkout beserta id order
+- Selesai
