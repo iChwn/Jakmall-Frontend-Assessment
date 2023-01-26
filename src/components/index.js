@@ -11,6 +11,7 @@ import BackButton from "./atoms/button/backButton"
 import Card from "./atoms/card/card"
 import ListItemCard from "./atoms/card/listItemCard"
 import ErrorLabel from "./atoms/label/errorLabel"
+import LoadingComponent from "./loading"
 
 // Molecules
 import Stepper from "./molecules/stepper"
@@ -37,5 +38,6 @@ export {
 	PaymentDetail,
 	ListItemCard,
 	TransactionFinish,
-	ErrorLabel
+	ErrorLabel,
+	LoadingComponent
 }

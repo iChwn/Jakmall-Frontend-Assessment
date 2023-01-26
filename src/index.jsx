@@ -4,31 +4,16 @@ import App from './App';
 import store from "integration/store";
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux";
-import { QueryClient, QueryClientProvider } from "react-query";
 import { PersistGate } from 'redux-persist/integration/react'
 import "./assets/css/tailwind.css";
 import "./index.css";
-
-// react query config
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-      retry: false,
-    },
-  },
-});
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Provider store={store().store}>
       <PersistGate loading={null} persistor={store().persistor}>
-        <QueryClientProvider client={queryClient}>
-          <App />
-        </QueryClientProvider>
+        <App />
       </PersistGate>
     </Provider>
   </React.StrictMode>
