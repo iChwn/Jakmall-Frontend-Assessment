@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { SET_DELIVERY_DETAIL, SET_CHANGE_ACTION, DIRECT_SET_FORM_VALUE } from './types';
 
 export const setDeliveryDetail = (data, currentStep) => {
@@ -30,15 +29,3 @@ export const handleChangeAction = (name, value) => {
 		}
 	};
 };
-
-
-export const getApiData = () => {
-	return (_) =>
-		axios.get("https://jsonplaceholder.typicode.com/todos")
-		.then((res) => {
-			console.log(res)
-		})
-		.catch((err) => {
-			console.log(err)
-		})
-}
